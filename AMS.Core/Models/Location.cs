@@ -1,6 +1,6 @@
 ﻿namespace AMS.Core.Models
 {
-    public class Location
+    public class Location : Entity
     {
         public string City { get; set; }
         public string District { get; set; }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AMS.Core.Models
 {
-    public class Rating
+    public class Rating : Entity
     {
         public double Overall { get; set; }
         public double Teaching { get; set; }

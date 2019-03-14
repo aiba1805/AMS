@@ -10,10 +10,9 @@ namespace AMS.Core.Models
     {
         Red,Blue,Altyn
     }
-    public class Certificate
+    public class Certificate : Entity
     {
-        public Dictionary<string,string> Marks { get; set; }
         public CertificateType CertificateType { get; set; }
-        public IFormFile CertificateFile { get; set; }
+        public string CertificateFile { get; set; }
     }
 }

@@ -11,10 +11,15 @@ namespace AMS.Core.Models
         public string IIN { get; set; }
         
         public string Residence { get; set; }
-        public IFormFile MilitaryDocument { get; set; }
+        public string MilitaryDocument { get; set; }
         public virtual Certificate Certificate { get; set; }
         public virtual School School { get; set; }
         public virtual UNT UNT { get; set; }
-        public List<IFormFile> Diplomas { get; set; }
+        public List<string> Diplomas { get; set; }
+
+        public Applicant()
+        {
+            Diplomas = new List<string>();
+        }
      }
 }

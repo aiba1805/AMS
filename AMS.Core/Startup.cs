@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using AMS.Core.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 namespace AMS.Core
 {
@@ -34,11 +36,9 @@ namespace AMS.Core
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddEntityFrameworkNpgsql()
+                .AddDbContext<ApplicationDbContext>()
+                .BuildServiceProvider();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
