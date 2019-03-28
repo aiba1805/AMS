@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AMS.Core.Models
 {
-    public class Applicant : User
+    public class Applicant : Entity
     {
         public string IIN { get; set; }
         
@@ -15,6 +15,11 @@ namespace AMS.Core.Models
         public virtual Certificate Certificate { get; set; }
         public virtual School School { get; set; }
         public virtual UNT UNT { get; set; }
+
+        public virtual User User{
+            get;
+            set;
+        }
         public List<string> Diplomas { get; set; }
 
         public Applicant()

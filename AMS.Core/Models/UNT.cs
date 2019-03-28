@@ -9,6 +9,5 @@ namespace AMS.Core.Models
     {
         public int Points { get; set; }
         public string PlaceOfExam { get; set; }
-        public virtual Application Application { get; set; }
     }
 }

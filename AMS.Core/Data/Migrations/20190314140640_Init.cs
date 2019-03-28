@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace AMS.Core.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -104,13 +104,57 @@ namespace AMS.Core.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Unts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Points = table.Column<int>(nullable: false),
+                    PlaceOfExam = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Unts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    UserName = table.Column<string>(nullable: true),
+                    NormalizedUserName = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    NormalizedEmail = table.Column<string>(nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    SecondName = table.Column<string>(nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    BirthDate = table.Column<DateTime>(nullable: false),
+                    Sex = table.Column<bool>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Marks",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Value = table.Column<int>(nullable: false),
                     Subject = table.Column<string>(nullable: true),
-                    CertificateId = table.Column<Guid>(nullable: true)
+                    CertificateId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -170,100 +214,70 @@ namespace AMS.Core.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Specialties",
+                name: "Applicants",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    ApplicationId = table.Column<Guid>(nullable: true),
-                    UniversityId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Specialties", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Specialties_Universities_UniversityId",
-                        column: x => x.UniversityId,
-                        principalTable: "Universities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Unts",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Points = table.Column<int>(nullable: false),
-                    PlaceOfExam = table.Column<string>(nullable: true),
-                    ApplicationId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Unts", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    UserName = table.Column<string>(nullable: true),
-                    NormalizedUserName = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    NormalizedEmail = table.Column<string>(nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    SecondName = table.Column<string>(nullable: true),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    BirthDate = table.Column<DateTime>(nullable: false),
-                    Sex = table.Column<bool>(nullable: true),
-                    Discriminator = table.Column<string>(nullable: false),
-                    IIN = table.Column<string>(nullable: true),
+                    IIN = table.Column<string>(nullable: false),
                     Residence = table.Column<string>(nullable: true),
                     MilitaryDocument = table.Column<string>(nullable: true),
                     CertificateId = table.Column<Guid>(nullable: true),
                     SchoolId = table.Column<Guid>(nullable: true),
                     UNTId = table.Column<Guid>(nullable: true),
-                    Diplomas = table.Column<List<string>>(nullable: true),
-                    Position = table.Column<string>(nullable: true),
-                    UniversityId = table.Column<Guid>(nullable: true)
+                    UserId = table.Column<Guid>(nullable: false),
+                    Diplomas = table.Column<List<string>>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_Applicants", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Certificates_CertificateId",
+                        name: "FK_Applicants_Certificates_CertificateId",
                         column: x => x.CertificateId,
                         principalTable: "Certificates",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Users_Schools_SchoolId",
+                        name: "FK_Applicants_Schools_SchoolId",
                         column: x => x.SchoolId,
                         principalTable: "Schools",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Users_Unts_UNTId",
+                        name: "FK_Applicants_Unts_UNTId",
                         column: x => x.UNTId,
                         principalTable: "Unts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Users_Universities_UniversityId",
+                        name: "FK_Applicants_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Employees",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Position = table.Column<string>(nullable: true),
+                    UserId = table.Column<Guid>(nullable: false),
+                    UniversityId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employees", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Employees_Universities_UniversityId",
                         column: x => x.UniversityId,
                         principalTable: "Universities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Employees_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -273,15 +287,41 @@ namespace AMS.Core.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    ApplicantId = table.Column<Guid>(nullable: true)
+                    ApplicantId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Applications", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Applications_Users_ApplicantId",
+                        name: "FK_Applications_Applicants_ApplicantId",
                         column: x => x.ApplicantId,
-                        principalTable: "Users",
+                        principalTable: "Applicants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Specialties",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    UniversityId = table.Column<Guid>(nullable: false),
+                    ApplicationId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Specialties", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Specialties_Applications_ApplicationId",
+                        column: x => x.ApplicationId,
+                        principalTable: "Applications",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Specialties_Universities_UniversityId",
+                        column: x => x.UniversityId,
+                        principalTable: "Universities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -299,9 +339,39 @@ namespace AMS.Core.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Applicants_CertificateId",
+                table: "Applicants",
+                column: "CertificateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Applicants_SchoolId",
+                table: "Applicants",
+                column: "SchoolId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Applicants_UNTId",
+                table: "Applicants",
+                column: "UNTId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Applicants_UserId",
+                table: "Applicants",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Applications_ApplicantId",
                 table: "Applications",
                 column: "ApplicantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employees_UniversityId",
+                table: "Employees",
+                column: "UniversityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employees_UserId",
+                table: "Employees",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Marks_CertificateId",
@@ -332,54 +402,12 @@ namespace AMS.Core.Data.Migrations
                 name: "IX_Universities_RatingId",
                 table: "Universities",
                 column: "RatingId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Unts_ApplicationId",
-                table: "Unts",
-                column: "ApplicationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_CertificateId",
-                table: "Users",
-                column: "CertificateId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_SchoolId",
-                table: "Users",
-                column: "SchoolId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_UNTId",
-                table: "Users",
-                column: "UNTId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_UniversityId",
-                table: "Users",
-                column: "UniversityId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Specialties_Applications_ApplicationId",
-                table: "Specialties",
-                column: "ApplicationId",
-                principalTable: "Applications",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Unts_Applications_ApplicationId",
-                table: "Unts",
-                column: "ApplicationId",
-                principalTable: "Applications",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Applications_Users_ApplicantId",
-                table: "Applications");
+            migrationBuilder.DropTable(
+                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "Marks");
@@ -388,7 +416,16 @@ namespace AMS.Core.Data.Migrations
                 name: "Specialties");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Applications");
+
+            migrationBuilder.DropTable(
+                name: "Universities");
+
+            migrationBuilder.DropTable(
+                name: "Applicants");
+
+            migrationBuilder.DropTable(
+                name: "Ratings");
 
             migrationBuilder.DropTable(
                 name: "Certificates");
@@ -400,16 +437,10 @@ namespace AMS.Core.Data.Migrations
                 name: "Unts");
 
             migrationBuilder.DropTable(
-                name: "Universities");
-
-            migrationBuilder.DropTable(
-                name: "Applications");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Locations");
-
-            migrationBuilder.DropTable(
-                name: "Ratings");
 
             migrationBuilder.DropIndex(
                 name: "UserNameIndex",

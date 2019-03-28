@@ -7,7 +7,7 @@ using AMS.Core.Models;
 
 namespace AMS.Core.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public DbSet<Applicant> Applicants { get; set; }
         public DbSet<Application> Applications { get; set; }
@@ -16,7 +16,6 @@ namespace AMS.Core.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Certificate> Certificates { get; set; }
         public DbSet<UNT> Unts { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Mark> Marks { get; set; }

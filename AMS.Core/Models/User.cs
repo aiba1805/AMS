@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AMS.Core.Models
 {
-    public class User : IdentityUser<Guid>
+    public class User : IdentityUser
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -17,7 +17,7 @@ namespace AMS.Core.Models
 
         public User()
         {
-            Id = Guid.NewGuid();
+            
         }
     }
 }

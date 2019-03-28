@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AMS.Core.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190314031744_Initial")]
-    partial class Initial
+    [Migration("20190314140640_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,6 +21,40 @@ namespace AMS.Core.Data.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            modelBuilder.Entity("AMS.Core.Models.Applicant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("CertificateId");
+
+                    b.Property<List<string>>("Diplomas");
+
+                    b.Property<string>("IIN");
+
+                    b.Property<string>("MilitaryDocument");
+
+                    b.Property<string>("Residence");
+
+                    b.Property<Guid?>("SchoolId");
+
+                    b.Property<Guid?>("UNTId");
+
+                    b.Property<Guid?>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CertificateId");
+
+                    b.HasIndex("SchoolId");
+
+                    b.HasIndex("UNTId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Applicants");
+                });
 
             modelBuilder.Entity("AMS.Core.Models.Application", b =>
                 {
@@ -48,6 +82,26 @@ namespace AMS.Core.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Certificates");
+                });
+
+            modelBuilder.Entity("AMS.Core.Models.Employee", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Position");
+
+                    b.Property<Guid?>("UniversityId");
+
+                    b.Property<Guid?>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UniversityId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("AMS.Core.Models.Location", b =>
@@ -169,15 +223,11 @@ namespace AMS.Core.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("ApplicationId");
-
                     b.Property<string>("PlaceOfExam");
 
                     b.Property<int>("Points");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationId");
 
                     b.ToTable("Unts");
                 });
@@ -194,9 +244,6 @@ namespace AMS.Core.Data.Migrations
                     b.Property<string>("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreatedDate");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
 
                     b.Property<string>("Email");
 
@@ -233,8 +280,6 @@ namespace AMS.Core.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -396,46 +441,21 @@ namespace AMS.Core.Data.Migrations
 
             modelBuilder.Entity("AMS.Core.Models.Applicant", b =>
                 {
-                    b.HasBaseType("AMS.Core.Models.User");
+                    b.HasOne("AMS.Core.Models.Certificate", "Certificate")
+                        .WithMany()
+                        .HasForeignKey("CertificateId");
 
-                    b.Property<Guid?>("CertificateId");
+                    b.HasOne("AMS.Core.Models.School", "School")
+                        .WithMany()
+                        .HasForeignKey("SchoolId");
 
-                    b.Property<List<string>>("Diplomas");
+                    b.HasOne("AMS.Core.Models.UNT", "UNT")
+                        .WithMany()
+                        .HasForeignKey("UNTId");
 
-                    b.Property<string>("IIN");
-
-                    b.Property<string>("MilitaryDocument");
-
-                    b.Property<string>("Residence");
-
-                    b.Property<Guid?>("SchoolId");
-
-                    b.Property<Guid?>("UNTId");
-
-                    b.HasIndex("CertificateId");
-
-                    b.HasIndex("SchoolId");
-
-                    b.HasIndex("UNTId");
-
-                    b.ToTable("Applicant");
-
-                    b.HasDiscriminator().HasValue("Applicant");
-                });
-
-            modelBuilder.Entity("AMS.Core.Models.Employee", b =>
-                {
-                    b.HasBaseType("AMS.Core.Models.User");
-
-                    b.Property<string>("Position");
-
-                    b.Property<Guid?>("UniversityId");
-
-                    b.HasIndex("UniversityId");
-
-                    b.ToTable("Employee");
-
-                    b.HasDiscriminator().HasValue("Employee");
+                    b.HasOne("AMS.Core.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("AMS.Core.Models.Application", b =>
@@ -443,6 +463,17 @@ namespace AMS.Core.Data.Migrations
                     b.HasOne("AMS.Core.Models.Applicant", "Applicant")
                         .WithMany()
                         .HasForeignKey("ApplicantId");
+                });
+
+            modelBuilder.Entity("AMS.Core.Models.Employee", b =>
+                {
+                    b.HasOne("AMS.Core.Models.University")
+                        .WithMany("Employees")
+                        .HasForeignKey("UniversityId");
+
+                    b.HasOne("AMS.Core.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("AMS.Core.Models.Mark", b =>
@@ -461,8 +492,8 @@ namespace AMS.Core.Data.Migrations
 
             modelBuilder.Entity("AMS.Core.Models.Specialty", b =>
                 {
-                    b.HasOne("AMS.Core.Models.Application", "Application")
-                        .WithMany()
+                    b.HasOne("AMS.Core.Models.Application")
+                        .WithMany("Specialties")
                         .HasForeignKey("ApplicationId");
 
                     b.HasOne("AMS.Core.Models.University", "University")
@@ -479,13 +510,6 @@ namespace AMS.Core.Data.Migrations
                     b.HasOne("AMS.Core.Models.Rating", "Rating")
                         .WithMany()
                         .HasForeignKey("RatingId");
-                });
-
-            modelBuilder.Entity("AMS.Core.Models.UNT", b =>
-                {
-                    b.HasOne("AMS.Core.Models.Application", "Application")
-                        .WithMany()
-                        .HasForeignKey("ApplicationId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -531,28 +555,6 @@ namespace AMS.Core.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AMS.Core.Models.Applicant", b =>
-                {
-                    b.HasOne("AMS.Core.Models.Certificate", "Certificate")
-                        .WithMany()
-                        .HasForeignKey("CertificateId");
-
-                    b.HasOne("AMS.Core.Models.School", "School")
-                        .WithMany()
-                        .HasForeignKey("SchoolId");
-
-                    b.HasOne("AMS.Core.Models.UNT", "UNT")
-                        .WithMany()
-                        .HasForeignKey("UNTId");
-                });
-
-            modelBuilder.Entity("AMS.Core.Models.Employee", b =>
-                {
-                    b.HasOne("AMS.Core.Models.University")
-                        .WithMany("Employees")
-                        .HasForeignKey("UniversityId");
                 });
 #pragma warning restore 612, 618
         }

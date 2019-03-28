@@ -5,8 +5,12 @@ using System.Threading.Tasks;
 
 namespace AMS.Core.Models
 {
-    public class Employee : User
+    public class Employee : Entity
     {
         public string Position { get; set; }
+        public virtual User User{
+            get;
+            set;
+        }
     }
 }
