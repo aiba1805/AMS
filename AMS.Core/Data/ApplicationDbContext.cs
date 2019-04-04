@@ -4,19 +4,17 @@ using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using AMS.Core.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace AMS.Core.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<User>
+    public class ApplicationDbContext : IdentityDbContext<User,IdentityRole<Guid>,Guid>
     {
         public DbSet<Applicant> Applicants { get; set; }
         public DbSet<Application> Applications { get; set; }
-        public DbSet<University> Universities { get; set; }
         public DbSet<School> Schools { get; set; }
-        public DbSet<Employee> Employees { get; set; }
         public DbSet<Certificate> Certificates { get; set; }
         public DbSet<UNT> Unts { get; set; }
-        public DbSet<Rating> Ratings { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Mark> Marks { get; set; }
         public DbSet<Specialty> Specialties { get; set; }
