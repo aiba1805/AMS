@@ -39,7 +39,15 @@ namespace AMS.Core
             services.AddEntityFrameworkNpgsql()
                 .AddDbContext<ApplicationDbContext>()
                 .BuildServiceProvider();
+            
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseNpgsql(connectionString));
 
+            services.AddDefaultIdentity<User>()
+                .AddDefaultUI(UIFramework.Bootstrap4)
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
