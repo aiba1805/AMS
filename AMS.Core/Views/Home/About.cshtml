@@ -1,7 +1,42 @@
-﻿@{
-    ViewData["Title"] = "About";
-}
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
+﻿<!-- container -->
+<div class="container">
 
-<p>Use this area to provide additional information.</p>
+    <ol class="breadcrumb">
+        <li><a href="index.html">Home</a></li>
+        <li class="active">About</li>
+    </ol>
+
+    <div class="row">
+
+        <!-- Article main content -->
+        <article class="col-sm-8 maincontent">
+            <header class="page-header">
+                <h1 class="page-title">About us</h1>
+            </header>
+            <h3>Our goals</h3>
+            <p><img src="~/images/mac.jpg" alt="" class="img-rounded pull-right" width="300">We want to fully automate the selection of applicants to our university and make it convenient for both applicants themselves and university staff.We want the application process to be as convenient and simple as possible for both parties.</p>
+            <h3>About our university</h3>
+            <p>Our university is one of the top technical universities in the country. Training is made in English. We use American teaching methods. We want to see in the walls of our university those people who can come out as excellent specialists in their field.</p>
+            <h3>Why us?</h3>
+            <p>We are the top 6 universities in the country. High credibility from employers. High trust rating among citizens of the country. We have European accreditation. We have teachers from abroad. Most teachers are young professionals who can share their work experience immediately after the university. And quickly find a common language with students. We have a lot of positive feedback from graduates of our university</p>
+        </article>
+        <!-- /Article -->
+        <!-- Sidebar -->
+        <aside class="col-sm-4 sidebar sidebar-right">
+
+            <div class="widget">
+                <h4>Specialty</h4>
+                <ul class="list-unstyled list-spaces">
+                    <li><a href="">Information Systems</a><br><span class="small text-muted"></span></li>
+                    <li><a href="">Computing and software</a><br><span class="small text-muted"></span></li>
+                    <li><a href="">Journalism</a><br><span class="small text-muted"></span></li>
+                    <li><a href="">Information Security Systems</a><br><span class="small text-muted"></span></li>
+                    <li><a href="">Computer Science</a><br><span class="small text-muted"></span></li>
+                </ul>
+            </div>
+
+        </aside>
+        <!-- /Sidebar -->
+
+    </div>
+</div>	<!-- /container -->
