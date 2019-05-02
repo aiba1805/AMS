@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AMS.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AMS.Core.Controllers
 {
@@ -26,6 +27,12 @@ namespace AMS.Core.Controllers
         {
             ViewData["Message"] = "Your contact page.";
 
+            return View();
+        }
+
+        [Authorize]
+        public IActionResult Cabinet()
+        {
             return View();
         }
 

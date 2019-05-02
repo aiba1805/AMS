@@ -17,6 +17,9 @@ using Npgsql.EntityFrameworkCore.PostgreSQL;
 using AMS.Core.Models;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using AMS.Core.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AMS.Core
 {
@@ -47,6 +50,7 @@ namespace AMS.Core
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(connectionString));
 
+            
             services.AddIdentity<User, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();

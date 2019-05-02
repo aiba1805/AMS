@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AMS.Core.Data;
 using AMS.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AMS.Core.Controllers
 {
+    [Authorize(Roles="Manager")]
     public class ApplicantsController : Controller
     {
         private readonly ApplicationDbContext _context;
